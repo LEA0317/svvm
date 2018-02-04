@@ -1167,5 +1167,24 @@ float4& float4::operator/(uXMM _div) {
   u.val = u.val / _div.f.u.val;
   return *this;
 }
+////////////////////////////
+//// double2 operations ////
+////////////////////////////
+double2& double2::operator+(uXMM _add) {
+  u.val = u.val + _add.f.u.val;
+  return *this;
+}
+double2& double2::operator-(uXMM _sub) {
+  u.val = u.val - _sub.f.u.val;
+  return *this;
+}
+double2& double2::operator*(uXMM _mul) {
+  u.val = u.val * _mul.f.u.val;
+  return *this;
+}
+double2& double2::operator/(uXMM _div) {
+  u.val = u.val / _div.f.u.val;
+  return *this;
+}
 
 #endif
