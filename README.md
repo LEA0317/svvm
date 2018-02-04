@@ -13,8 +13,9 @@ void test(ymm *ymm0, ymm *ymm1, ymm *ymm2) {
 Compile as follows.
 
 ```
-$ clang++ -O3 -mavx2 test.cpp
+$ clang++ -O3 -mavx2 test.cpp -std=c++11
 ```
 
 I will update this wrapper (predicate instructions etc.) and implement AVX512 version.
+
 The idea of this wrapper can also be applied to super wide SIMD.
