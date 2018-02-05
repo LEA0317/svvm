@@ -1171,19 +1171,19 @@ float8& float8::operator/(uYMM _div) {
 //// double4 operations ////
 ////////////////////////////
 double4& double4::operator+(uYMM _add) {
-  u.val = u.val + _add.f.u.val;
+  u.val = u.val + _add.d.u.val;
   return *this;
 }
 double4& double4::operator-(uYMM _sub) {
-  u.val = u.val - _sub.f.u.val;
+  u.val = u.val - _sub.d.u.val;
   return *this;
 }
 double4& double4::operator*(uYMM _mul) {
-  u.val = u.val * _mul.f.u.val;
+  u.val = u.val * _mul.d.u.val;
   return *this;
 }
 double4& double4::operator/(uYMM _div) {
-  u.val = u.val / _div.f.u.val;
+  u.val = u.val / _div.d.u.val;
   return *this;
 }
 
