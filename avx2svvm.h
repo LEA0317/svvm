@@ -32,14 +32,14 @@ struct int8
     int   elem[8];
   } u;
 
-  // put
-  __inline static void put(int8 dst, int pos, int put)
+  // set
+  __inline static void set(int8 dst, int pos, int set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(int8 *dst, int pos, int put)
+  __inline static void set(int8 *dst, int pos, int set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -181,14 +181,14 @@ struct uint8
     unsigned int elem[8];
   } u;
 
-  // put
-  __inline static void put(uint8 dst, int pos, unsigned int put)
+  // set
+  __inline static void set(uint8 dst, int pos, unsigned int set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(uint8 *dst, int pos, unsigned int put)
+  __inline static void set(uint8 *dst, int pos, unsigned int set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -330,14 +330,14 @@ struct long4
     long  elem[4];
   } u;
 
-  // put
-  __inline static void put(long4 dst, int pos, long put)
+  // set
+  __inline static void set(long4 dst, int pos, long set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(long4 *dst, int pos, long put)
+  __inline static void set(long4 *dst, int pos, long set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -479,14 +479,14 @@ struct ulong4
     unsigned long elem[4];
   } u;
 
-  // put
-  __inline static void put(ulong4 dst, int pos, unsigned long put)
+  // set
+  __inline static void set(ulong4 dst, int pos, unsigned long set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(ulong4 *dst, int pos, unsigned long put)
+  __inline static void set(ulong4 *dst, int pos, unsigned long set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -628,14 +628,14 @@ struct float8
     float elem[8];
   } u;
 
-  // put
-  __inline static void put(float8 dst, int pos, float put)
+  // set
+  __inline static void set(float8 dst, int pos, float set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(float8 *dst, int pos, float put)
+  __inline static void set(float8 *dst, int pos, float set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -734,21 +734,21 @@ struct float8
 struct double4
 {
   double4()              { u.val = 0.0; }
-  double4(v4f64 assign)  { u.val = assign; }
+  double4(v4f64  assign) { u.val = assign; }
   double4(double assign) { u.val = assign; }  
   union U {
-    v4f64 val;
+    v4f64  val;
     double elem[4];
   } u;
 
-  // put
-  __inline static void put(double4 dst, int pos, double put)
+  // set
+  __inline static void set(double4 dst, int pos, double set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(double4 *dst, int pos, double put)
+  __inline static void set(double4 *dst, int pos, double set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
