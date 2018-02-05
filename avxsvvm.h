@@ -32,14 +32,14 @@ struct int4
     int   elem[4];
   } u;
 
-  // put
-  __inline static void put(int4 dst, int pos, int put)
+  // set
+  __inline static void set(int4 dst, int pos, int set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(int4 *dst, int pos, int put)
+  __inline static void set(int4 *dst, int pos, int set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -181,14 +181,14 @@ struct uint4
     unsigned int elem[4];
   } u;
 
-  // put
-  __inline static void put(uint4 dst, int pos, unsigned int put)
+  // set
+  __inline static void set(uint4 dst, int pos, unsigned int set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(uint4 *dst, int pos, unsigned int put)
+  __inline static void set(uint4 *dst, int pos, unsigned int set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -330,14 +330,14 @@ struct long2
     long  elem[2];
   } u;
 
-  // put
-  __inline static void put(long2 dst, int pos, long put)
+  // set
+  __inline static void set(long2 dst, int pos, long set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(long2 *dst, int pos, long put)
+  __inline static void set(long2 *dst, int pos, long set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -479,14 +479,14 @@ struct ulong2
     unsigned long elem[2];
   } u;
 
-  // put
-  __inline static void put(ulong2 dst, int pos, unsigned long put)
+  // set
+  __inline static void set(ulong2 dst, int pos, unsigned long set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(ulong2 *dst, int pos, unsigned long put)
+  __inline static void set(ulong2 *dst, int pos, unsigned long set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -628,14 +628,14 @@ struct float4
     float elem[4];
   } u;
 
-  // put
-  __inline static void put(float4 dst, int pos, float put)
+  // set
+  __inline static void set(float4 dst, int pos, float set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(float4 *dst, int pos, float put)
+  __inline static void set(float4 *dst, int pos, float set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -722,6 +722,16 @@ struct float4
     return float4(u.val * tmp.u.val);
   }      
 
+  // fma4 for AMD64
+  __inline static float4 fma_as_mul(float4 _src_mul, float4 _src_add)
+  {
+    return float4(u.val * _src_mul.u.val + _src_add.u.val);
+  }
+  __inline static float4 fma_as_add(float4 _src_mul1, float4 _src_mul2)
+  {
+    return float4(_src_mul1.u.val * _src_mul2.u.val + u.val);
+  }
+  
   // compare
   __inline mask operator<(float4  _lt);
   __inline mask operator<=(float4 _le);
@@ -734,21 +744,21 @@ struct float4
 struct double2
 {
   double2()              { u.val = 0.0; }
-  double2(v2f64 assign)  { u.val = assign; }
+  double2(v2f64  assign) { u.val = assign; }
   double2(double assign) { u.val = assign; }  
   union U {
-    v2f64 val;
+    v2f64  val;
     double elem[2];
   } u;
 
-  // put
-  __inline static void put(double2 dst, int pos, double put)
+  // set
+  __inline static void set(double2 dst, int pos, double set)
   {
-    dst.u.elem[pos] = put;
+    dst.u.elem[pos] = set;
   }
-  __inline static void put(double2 *dst, int pos, double put)
+  __inline static void set(double2 *dst, int pos, double set)
   {
-    dst->u.elem[pos] = put;
+    dst->u.elem[pos] = set;
   }
   
   // get
@@ -811,6 +821,16 @@ struct double2
     return double2(__builtin_ia32_sqrtpd(_sqrt.u.val));
   }
 
+  // fma4 for AMD64
+  __inline static double2 fma_as_mul(double2 _src_mul, double2 _src_add)
+  {
+    return double2(u.val * _src_mul.u.val + _src_add.u.val);
+  }
+  __inline static double2 fma_as_add(double2 _src_mul1, double2 _src_mul2)
+  {
+    return double2(_src_mul1.u.val * _src_mul2.u.val + u.val);
+  }
+  
   // compare
   __inline mask operator<(double2  _lt);
   __inline mask operator<=(double2 _le);
