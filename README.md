@@ -14,7 +14,7 @@ Compile as follows.
 
 ```
 with avxsvvm.h
-$ clang++ -O3 -mavx2 test.cpp -std=c++11
+$ clang++ -O3 -mavx test.cpp -std=c++11
 
 with avx2svvm.h
 $ clang++ -O3 -mavx2 test.cpp -std=c++11
