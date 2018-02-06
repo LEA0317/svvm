@@ -1135,19 +1135,19 @@ float16& float16::operator/(uZMM _div) {
 //// double8 operations ////
 ////////////////////////////
 double8& double8::operator+(uZMM _add) {
-  u.val = u.val + _add.f.u.val;
+  u.val = u.val + _add.d.u.val;
   return *this;
 }
 double8& double8::operator-(uZMM _sub) {
-  u.val = u.val - _sub.f.u.val;
+  u.val = u.val - _sub.d.u.val;
   return *this;
 }
 double8& double8::operator*(uZMM _mul) {
-  u.val = u.val * _mul.f.u.val;
+  u.val = u.val * _mul.d.u.val;
   return *this;
 }
 double8& double8::operator/(uZMM _div) {
-  u.val = u.val / _div.f.u.val;
+  u.val = u.val / _div.d.u.val;
   return *this;
 }
 
