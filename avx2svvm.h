@@ -96,7 +96,7 @@ struct int8
     return int8(u.val / (int8(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline int8& operator%(uYMM _mod);
   __inline int8 operator%(int8 _mod)
   {
@@ -245,7 +245,7 @@ struct uint8
     return uint8(u.val / (uint8(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline uint8& operator%(uYMM _mod);  
   __inline uint8 operator%(uint8 _mod)
   {
@@ -394,7 +394,7 @@ struct long4
     return long4(u.val / (long4(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline long4& operator%(uYMM _mod);
   __inline long4 operator%(long4 _mod)
   {
@@ -543,7 +543,7 @@ struct ulong4
     return ulong4(u.val / (ulong4(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline ulong4& operator%(uYMM _mod);  
   __inline ulong4 operator%(ulong4 _mod)
   {
@@ -693,21 +693,21 @@ struct float8
   }
 
   // sqrt
-  __inline static float8 sqrt(float8 _sqrt)
+  __inline float8 sqrt(void)
   {
-    return float8(__builtin_ia32_sqrtps256(_sqrt.u.val));
+    return float8(__builtin_ia32_sqrtps256(u.val));
   }
 
   // rsqrt
-  __inline static float8 rsqrt(float8 _rsqrt)
+  __inline float8 rsqrt(void)
   {
-    return float8(__builtin_ia32_rsqrtps256(_rsqrt.u.val));
+    return float8(__builtin_ia32_rsqrtps256(u.val));
   }
 
   // rcp
-  __inline static float8 rcp(float8 _rcp)
+  __inline float8 rcp(void)
   {
-    return float8(__builtin_ia32_rcpps256(_rcp.u.val));
+    return float8(__builtin_ia32_rcpps256(u.val));
   }
 
   // div with rcp
@@ -806,9 +806,9 @@ struct double4
   }
 
   // sqrt
-  __inline static double4 sqrt(double4 _sqrt)
+  __inline double4 sqrt(void)
   {
-    return double4(__builtin_ia32_sqrtpd256(_sqrt.u.val));
+    return double4(__builtin_ia32_sqrtpd256(u.val));
   }
 
   // compare

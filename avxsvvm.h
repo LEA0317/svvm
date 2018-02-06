@@ -96,7 +96,7 @@ struct int4
     return int4(u.val / (int4(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline int4& operator%(uXMM _mod);
   __inline int4 operator%(int4 _mod)
   {
@@ -245,7 +245,7 @@ struct uint4
     return uint4(u.val / (uint4(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline uint4& operator%(uXMM _mod);  
   __inline uint4 operator%(uint4 _mod)
   {
@@ -394,7 +394,7 @@ struct long2
     return long2(u.val / (long2(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline long2& operator%(uXMM _mod);
   __inline long2 operator%(long2 _mod)
   {
@@ -543,7 +543,7 @@ struct ulong2
     return ulong2(u.val / (ulong2(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline ulong2& operator%(uXMM _mod);  
   __inline ulong2 operator%(ulong2 _mod)
   {
@@ -693,21 +693,21 @@ struct float4
   }
 
   // sqrt
-  __inline static float4 sqrt(float4 _sqrt)
+  __inline float4 sqrt(void)
   {
-    return float4(__builtin_ia32_sqrtps(_sqrt.u.val));
+    return float4(__builtin_ia32_sqrtps(u.val));
   }
 
   // rsqrt
-  __inline static float4 rsqrt(float4 _rsqrt)
+  __inline float4 rsqrt(void)
   {
-    return float4(__builtin_ia32_rsqrtps(_rsqrt.u.val));
+    return float4(__builtin_ia32_rsqrtps(u.val));
   }
 
   // rcp
-  __inline static float4 rcp(float4 _rcp)
+  __inline float4 rcp(void)
   {
-    return float4(__builtin_ia32_rcpps(_rcp.u.val));
+    return float4(__builtin_ia32_rcpps(u.val));
   }
 
   // div with rcp
@@ -723,11 +723,11 @@ struct float4
   }      
 
   // fma4 for AMD64
-  __inline static float4 fma_as_mul(float4 _src_mul, float4 _src_add)
+  __inline float4 fma_as_mul(float4 _src_mul, float4 _src_add)
   {
     return float4(u.val * _src_mul.u.val + _src_add.u.val);
   }
-  __inline static float4 fma_as_add(float4 _src_mul1, float4 _src_mul2)
+  __inline float4 fma_as_add(float4 _src_mul1, float4 _src_mul2)
   {
     return float4(_src_mul1.u.val * _src_mul2.u.val + u.val);
   }
@@ -816,17 +816,17 @@ struct double2
   }
 
   // sqrt
-  __inline static double2 sqrt(double2 _sqrt)
+  __inline double2 sqrt(void)
   {
-    return double2(__builtin_ia32_sqrtpd(_sqrt.u.val));
+    return double2(__builtin_ia32_sqrtpd(u.val));
   }
 
   // fma4 for AMD64
-  __inline static double2 fma_as_mul(double2 _src_mul, double2 _src_add)
+  __inline double2 fma_as_mul(double2 _src_mul, double2 _src_add)
   {
     return double2(u.val * _src_mul.u.val + _src_add.u.val);
   }
-  __inline static double2 fma_as_add(double2 _src_mul1, double2 _src_mul2)
+  __inline double2 fma_as_add(double2 _src_mul1, double2 _src_mul2)
   {
     return double2(_src_mul1.u.val * _src_mul2.u.val + u.val);
   }

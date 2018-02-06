@@ -96,7 +96,7 @@ struct int16
     return int16(u.val / (int16(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline int16& operator%(uZMM _mod);
   __inline int16 operator%(int16 _mod)
   {
@@ -245,7 +245,7 @@ struct uint16
     return uint16(u.val / (uint16(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline uint16& operator%(uZMM _mod);  
   __inline uint16 operator%(uint16 _mod)
   {
@@ -394,7 +394,7 @@ struct long8
     return long8(u.val / (long8(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline long8& operator%(uZMM _mod);
   __inline long8 operator%(long8 _mod)
   {
@@ -543,7 +543,7 @@ struct ulong8
     return ulong8(u.val / (ulong8(_div)).u.val);
   }
 
-  // modulo
+  // modulo (not SIMD)
   __inline ulong8& operator%(uZMM _mod);  
   __inline ulong8 operator%(ulong8 _mod)
   {
