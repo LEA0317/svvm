@@ -6,7 +6,7 @@ You can write the code to generate SIMD as follows.
 ```
 void test(ymm *ymm0, ymm *ymm1, ymm *ymm2) {
   (*ymm2).i = ((*ymm0).i + *ymm1) + *ymm2;
-  (*ymm2).f = ymmf::sqrt((*ymm2).f);
+  (*ymm2).f = ((*ymm2).f).sqrt();
 }
 ```
 
