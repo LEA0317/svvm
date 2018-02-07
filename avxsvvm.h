@@ -713,12 +713,10 @@ struct float4
   // div with rcp
   __inline float4 rcp_div(float4 _rcp_div)
   {
-    float4 rcp = float4(__builtin_ia32_rcpps(_rcp_div.u.val));
-    float4 one = float4(1.0f);
-    float4 tmp = rcp * _rcp_div;
-    tmp = tmp - one;
-    tmp = tmp * rcp;
-    tmp = tmp + rcp;
+    float4 rcp       = float4(__builtin_ia32_rcpps(_rcp_div.u.val));
+    float4 minus_one = float4(-1.0f);
+    float4 tmp       = minus_one.fma_as_add(rcp, _rcp_div);
+    tmp              = tmp.fma_as_mul(rcp, rcp);
     return float4(u.val * tmp.u.val);
   }      
 
