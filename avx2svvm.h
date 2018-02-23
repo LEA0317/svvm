@@ -713,14 +713,22 @@ struct float8
   // div with rcp
   __inline float8 rcp_div(float8 _rcp_div)
   {
-    float8 rcp = float8(__builtin_ia32_rcpps256(_rcp_div.u.val));
-    float8 one = float8(1.0f);
-    float8 tmp = rcp * _rcp_div;
-    tmp = tmp - one;
-    tmp = tmp * rcp;
-    tmp = tmp + rcp;
+    float8 rcp       = float8(__builtin_ia32_rcpps256(_rcp_div.u.val));
+    float8 minus_one = float8(-1.0f);
+    float8 tmp       = minus_one.fma_as_add(rcp, _rcp_div);
+    tmp              = tmp.fma_as_mul(rcp, rcp);
     return float8(u.val * tmp.u.val);
-  }      
+  }
+
+  // fma3
+  __inline float8 fma_as_mul(float8 _src_mul, float8 _src_add)
+  {
+    return float8(u.val * _src_mul.u.val + _src_add.u.val);
+  }
+  __inline float8 fma_as_add(float8 _src_mul1, float8 _src_mul2)
+  {
+    return float8(_src_mul1.u.val * _src_mul2.u.val + u.val);
+  }
 
   // compare
   __inline mask operator<(float8  _lt);
@@ -809,6 +817,16 @@ struct double4
   __inline double4 sqrt(void)
   {
     return double4(__builtin_ia32_sqrtpd256(u.val));
+  }
+  
+  // fma3
+  __inline double4 fma_as_mul(double4 _src_mul, double4 _src_add)
+  {
+    return double4(u.val * _src_mul.u.val + _src_add.u.val);
+  }
+  __inline double4 fma_as_add(double4 _src_mul1, double4 _src_mul2)
+  {
+    return double4(_src_mul1.u.val * _src_mul2.u.val + u.val);
   }
 
   // compare
