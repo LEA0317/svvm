@@ -924,11 +924,11 @@ mask double8::operator!=(double8 _ne) {
 //////////////////////
 union uZMM {
   uZMM() : i() {}
-  int16     i;
-  uint16   ui;
+  int16    i;
+  uint16  ui;
   long8    l;
   ulong8  ul;    
-  float16   f;
+  float16  f;
   double8  d;
 };
 
