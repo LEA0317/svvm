@@ -52,6 +52,13 @@ struct int4
     return src->u.elem[pos];
   } 
 
+  // assign
+  __inline void operator=(float4  _assign);
+  __inline void operator=(uint4   _assign);
+  __inline void operator=(long2   _assign);
+  __inline void operator=(double2 _assign);
+  __inline void operator=(ulong2  _assign);
+
   // add  
   __inline int4& operator+(uXMM _add);
   __inline int4 operator+(int4 _add)
@@ -200,6 +207,13 @@ struct uint4
   {
     return src->u.elem[pos];
   } 
+
+  // assign
+  __inline void operator=(float4  _assign);
+  __inline void operator=(int4    _assign);
+  __inline void operator=(long2   _assign);
+  __inline void operator=(double2 _assign);
+  __inline void operator=(ulong2  _assign);
 
   // add
   __inline uint4& operator+(uXMM _add);
@@ -350,6 +364,13 @@ struct long2
     return src->u.elem[pos];
   } 
 
+  // assign
+  __inline void operator=(float4  _assign);
+  __inline void operator=(int4    _assign);
+  __inline void operator=(uint4   _assign);
+  __inline void operator=(double2 _assign);
+  __inline void operator=(ulong2  _assign);
+
   // add  
   __inline long2& operator+(uXMM _add);
   __inline long2 operator+(long2 _add)
@@ -498,6 +519,13 @@ struct ulong2
   {
     return src->u.elem[pos];
   } 
+
+  // assign
+  __inline void operator=(double2 _assign);
+  __inline void operator=(int4    _assign);
+  __inline void operator=(uint4   _assign);
+  __inline void operator=(long2   _assign);
+  __inline void operator=(float4  _assign);
 
   // add
   __inline ulong2& operator+(uXMM _add);
@@ -648,6 +676,13 @@ struct float4
     return src->u.elem[pos];
   } 
 
+  // assign
+  __inline void operator=(double2 _assign);
+  __inline void operator=(int4    _assign);
+  __inline void operator=(uint4   _assign);
+  __inline void operator=(long2   _assign);
+  __inline void operator=(ulong2  _assign);
+
   // add
   __inline float4& operator+(uXMM _add);
   __inline float4 operator+(float4 _add)
@@ -729,6 +764,27 @@ struct float4
   {
     return float4(_src_mul1.u.val * _src_mul2.u.val + u.val);
   }
+
+  // max (should rename?)
+  __inline float4 max(float4 _max)
+  {
+    return float4(__builtin_ia32_maxps(u.val, _max.u.val));
+  }
+  // max
+  __inline static float4 max(float4 _max1, float4 _max2)
+  {
+    return float4(__builtin_ia32_maxps(_max1.u.val, _max2.u.val));
+  }
+  // min (should rename?)
+  __inline float4 min(float4 _min)
+  {
+    return float4(__builtin_ia32_minps(u.val, _min.u.val));
+  }
+  // min
+  __inline static float4 min(float4 _min1, float4 _min2)
+  {
+    return float4(__builtin_ia32_minps(_min1.u.val, _min2.u.val));
+  }
   
   // compare
   __inline mask operator<(float4  _lt);
@@ -768,6 +824,13 @@ struct double2
   {
     return src->u.elem[pos];
   } 
+
+  // assign
+  __inline void operator=(float4 _assign);
+  __inline void operator=(int4   _assign);
+  __inline void operator=(uint4  _assign);
+  __inline void operator=(long2  _assign);
+  __inline void operator=(ulong2 _assign);
 
   // add
   __inline double2& operator+(uXMM _add);
@@ -827,6 +890,27 @@ struct double2
   __inline double2 fma_as_add(double2 _src_mul1, double2 _src_mul2)
   {
     return double2(_src_mul1.u.val * _src_mul2.u.val + u.val);
+  }
+
+  // max (should rename?)
+  __inline double2 max(double2 _max)
+  {
+    return double2(__builtin_ia32_maxpd(u.val, _max.u.val));
+  }
+  // max
+  __inline static double2 max(double2 _max1, double2 _max2)
+  {
+    return double2(__builtin_ia32_maxpd(_max1.u.val, _max2.u.val));
+  }
+  // min (should rename?)
+  __inline double2 min(double2 _min)
+  {
+    return double2(__builtin_ia32_minpd(u.val, _min.u.val));
+  }
+  // min
+  __inline static double2 min(double2 _min1, double2 _min2)
+  {
+    return double2(__builtin_ia32_minpd(_min1.u.val, _min2.u.val));
   }
   
   // compare
@@ -984,6 +1068,13 @@ union uXMM {
   ulong2  ul;    
   float4   f;
   double2  d;
+
+  __inline void operator=(double2 _assign);
+  __inline void operator=(float4  _assign);
+  __inline void operator=(int4    _assign);
+  __inline void operator=(uint4   _assign);
+  __inline void operator=(long2   _assign);
+  __inline void operator=(ulong2  _assign);
 };
 
 using xmm   = uXMM;
@@ -1203,6 +1294,124 @@ double2& double2::operator*(uXMM _mul) {
 double2& double2::operator/(uXMM _div) {
   u.val = u.val / _div.d.u.val;
   return *this;
+}
+
+///////////////////////////////
+//// assignment operations ////
+///////////////////////////////
+void float4::operator=(double2 _assign) {
+  u.val = (v4f32)(*(reinterpret_cast<v4f32*>(&(_assign.u.val)))); 
+}
+void float4::operator=(int4 _assign) {
+  u.val = (v4f32)(*(reinterpret_cast<v4f32*>(&(_assign.u.val)))); 
+}
+void float4::operator=(uint4 _assign) {
+  u.val = (v4f32)(*(reinterpret_cast<v4f32*>(&(_assign.u.val)))); 
+}
+void float4::operator=(long2 _assign) {
+  u.val = (v4f32)(*(reinterpret_cast<v4f32*>(&(_assign.u.val)))); 
+}
+void float4::operator=(ulong2 _assign) {
+  u.val = (v4f32)(*(reinterpret_cast<v4f32*>(&(_assign.u.val)))); 
+}
+
+void double2::operator=(float4 _assign) {
+  u.val = (v2f64)(*(reinterpret_cast<v2f64*>(&(_assign.u.val)))); 
+}
+void double2::operator=(int4 _assign) {
+  u.val = (v2f64)(*(reinterpret_cast<v2f64*>(&(_assign.u.val)))); 
+}
+void double2::operator=(uint4 _assign) {
+  u.val = (v2f64)(*(reinterpret_cast<v2f64*>(&(_assign.u.val)))); 
+}
+void double2::operator=(long2 _assign) {
+  u.val = (v2f64)(*(reinterpret_cast<v2f64*>(&(_assign.u.val)))); 
+}
+void double2::operator=(ulong2 _assign) {
+  u.val = (v2f64)(*(reinterpret_cast<v2f64*>(&(_assign.u.val)))); 
+}
+
+void ulong2::operator=(float4 _assign) {
+  u.val = (uv2i64)(*(reinterpret_cast<uv2i64*>(&(_assign.u.val)))); 
+}
+void ulong2::operator=(int4 _assign) {
+  u.val = (uv2i64)(*(reinterpret_cast<uv2i64*>(&(_assign.u.val)))); 
+}
+void ulong2::operator=(uint4 _assign) {
+  u.val = (uv2i64)(*(reinterpret_cast<uv2i64*>(&(_assign.u.val)))); 
+}
+void ulong2::operator=(long2 _assign) {
+  u.val = (uv2i64)(*(reinterpret_cast<uv2i64*>(&(_assign.u.val)))); 
+}
+void ulong2::operator=(double2 _assign) {
+  u.val = (uv2i64)(*(reinterpret_cast<uv2i64*>(&(_assign.u.val)))); 
+}
+
+void long2::operator=(float4 _assign) {
+  u.val = (v2i64)(*(reinterpret_cast<v2i64*>(&(_assign.u.val)))); 
+}
+void long2::operator=(int4 _assign) {
+  u.val = (v2i64)(*(reinterpret_cast<v2i64*>(&(_assign.u.val)))); 
+}
+void long2::operator=(uint4 _assign) {
+  u.val = (v2i64)(*(reinterpret_cast<v2i64*>(&(_assign.u.val)))); 
+}
+void long2::operator=(ulong2 _assign) {
+  u.val = (v2i64)(*(reinterpret_cast<v2i64*>(&(_assign.u.val)))); 
+}
+void long2::operator=(double2 _assign) {
+  u.val = (v2i64)(*(reinterpret_cast<v2i64*>(&(_assign.u.val)))); 
+}
+
+void int4::operator=(float4 _assign) {
+  u.val = (v4i32)(*(reinterpret_cast<v4i32*>(&(_assign.u.val)))); 
+}
+void int4::operator=(ulong2 _assign) {
+  u.val = (v4i32)(*(reinterpret_cast<v4i32*>(&(_assign.u.val)))); 
+}
+void int4::operator=(uint4 _assign) {
+  u.val = (v4i32)(*(reinterpret_cast<v4i32*>(&(_assign.u.val)))); 
+}
+void int4::operator=(long2 _assign) {
+  u.val = (v4i32)(*(reinterpret_cast<v4i32*>(&(_assign.u.val)))); 
+}
+void int4::operator=(double2 _assign) {
+  u.val = (v4i32)(*(reinterpret_cast<v4i32*>(&(_assign.u.val)))); 
+}
+
+void uint4::operator=(float4 _assign) {
+  u.val = (uv4i32)(*(reinterpret_cast<uv4i32*>(&(_assign.u.val)))); 
+}
+void uint4::operator=(ulong2 _assign) {
+  u.val = (uv4i32)(*(reinterpret_cast<uv4i32*>(&(_assign.u.val)))); 
+}
+void uint4::operator=(int4 _assign) {
+  u.val = (uv4i32)(*(reinterpret_cast<uv4i32*>(&(_assign.u.val)))); 
+}
+void uint4::operator=(long2 _assign) {
+  u.val = (uv4i32)(*(reinterpret_cast<uv4i32*>(&(_assign.u.val)))); 
+}
+void uint4::operator=(double2 _assign) {
+  u.val = (uv4i32)(*(reinterpret_cast<uv4i32*>(&(_assign.u.val)))); 
+}
+
+void uXMM::operator=(float4 _assign) {
+  f = _assign; 
+}
+void uXMM::operator=(ulong2 _assign) {
+  ul = _assign;
+}
+void uXMM::operator=(int4 _assign) {
+  i = _assign;
+}
+void uXMM::operator=(uint4 _assign) {
+  ui = _assign;
+}
+void uXMM::operator=(long2 _assign) {
+  ul = _assign;
+}
+void uXMM::operator=(double2 _assign) {
+  d = _assign;
 }
 
 #endif

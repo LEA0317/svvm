@@ -52,6 +52,13 @@ struct int16
     return src->u.elem[pos];
   } 
 
+  // assign
+  __inline void operator=(float16 _assign);
+  __inline void operator=(uint16  _assign);
+  __inline void operator=(long8   _assign);
+  __inline void operator=(double8 _assign);
+  __inline void operator=(ulong8  _assign);
+
   // add  
   __inline int16& operator+(uZMM _add);
   __inline int16 operator+(int16 _add)
@@ -200,6 +207,13 @@ struct uint16
   {
     return src->u.elem[pos];
   } 
+
+  // assign
+  __inline void operator=(float16 _assign);
+  __inline void operator=(int16   _assign);
+  __inline void operator=(long8   _assign);
+  __inline void operator=(double8 _assign);
+  __inline void operator=(ulong8  _assign);
 
   // add
   __inline uint16& operator+(uZMM _add);
@@ -350,6 +364,13 @@ struct long8
     return src->u.elem[pos];
   } 
 
+  // assign
+  __inline void operator=(float16 _assign);
+  __inline void operator=(int16   _assign);
+  __inline void operator=(uint16  _assign);
+  __inline void operator=(double8 _assign);
+  __inline void operator=(ulong8  _assign);
+
   // add  
   __inline long8& operator+(uZMM _add);
   __inline long8 operator+(long8 _add)
@@ -498,6 +519,13 @@ struct ulong8
   {
     return src->u.elem[pos];
   } 
+
+  // assign
+  __inline void operator=(float16 _assign);
+  __inline void operator=(int16   _assign);
+  __inline void operator=(uint16  _assign);
+  __inline void operator=(long8   _assign);
+  __inline void operator=(double8 _assign);
 
   // add
   __inline ulong8& operator+(uZMM _add);
@@ -648,6 +676,13 @@ struct float16
     return src->u.elem[pos];
   } 
 
+  // assign
+  __inline void operator=(int16   _assign);
+  __inline void operator=(uint16  _assign);
+  __inline void operator=(long8   _assign);
+  __inline void operator=(double8 _assign);
+  __inline void operator=(ulong8  _assign);
+
   // add
   __inline float16& operator+(uZMM _add);
   __inline float16 operator+(float16 _add)
@@ -730,6 +765,13 @@ struct double8
   {
     return src->u.elem[pos];
   } 
+
+  // assign
+  __inline void operator=(float16 _assign);
+  __inline void operator=(int16   _assign);
+  __inline void operator=(uint16  _assign);
+  __inline void operator=(long8   _assign);
+  __inline void operator=(ulong8  _assign);
 
   // add
   __inline double8& operator+(uZMM _add);
@@ -927,9 +969,16 @@ union uZMM {
   int16    i;
   uint16  ui;
   long8    l;
-  ulong8  ul;    
+  ulong8  ul;   
   float16  f;
   double8  d;
+
+  __inline void operator=(double8 _assign);
+  __inline void operator=(float16 _assign);
+  __inline void operator=(int16   _assign);
+  __inline void operator=(uint16  _assign);
+  __inline void operator=(long8   _assign);
+  __inline void operator=(ulong8  _assign);
 };
 
 using zmm   = uZMM;
@@ -1151,5 +1200,122 @@ double8& double8::operator/(uZMM _div) {
   return *this;
 }
 
-#endif
+///////////////////////////////
+//// assignment operations ////
+///////////////////////////////
+void float16::operator=(double8 _assign) {
+  u.val = (v16f32)(*(reinterpret_cast<v16f32*>(&(_assign.u.val)))); 
+}
+void float16::operator=(int16 _assign) {
+  u.val = (v16f32)(*(reinterpret_cast<v16f32*>(&(_assign.u.val)))); 
+}
+void float16::operator=(uint16 _assign) {
+  u.val = (v16f32)(*(reinterpret_cast<v16f32*>(&(_assign.u.val)))); 
+}
+void float16::operator=(long8 _assign) {
+  u.val = (v16f32)(*(reinterpret_cast<v16f32*>(&(_assign.u.val)))); 
+}
+void float16::operator=(ulong8 _assign) {
+  u.val = (v16f32)(*(reinterpret_cast<v16f32*>(&(_assign.u.val)))); 
+}
 
+void double8::operator=(float16 _assign) {
+  u.val = (v8f64)(*(reinterpret_cast<v8f64*>(&(_assign.u.val)))); 
+}
+void double8::operator=(int16 _assign) {
+  u.val = (v8f64)(*(reinterpret_cast<v8f64*>(&(_assign.u.val)))); 
+}
+void double8::operator=(uint16 _assign) {
+  u.val = (v8f64)(*(reinterpret_cast<v8f64*>(&(_assign.u.val)))); 
+}
+void double8::operator=(long8 _assign) {
+  u.val = (v8f64)(*(reinterpret_cast<v8f64*>(&(_assign.u.val)))); 
+}
+void double8::operator=(ulong8 _assign) {
+  u.val = (v8f64)(*(reinterpret_cast<v8f64*>(&(_assign.u.val)))); 
+}
+
+void ulong8::operator=(float16 _assign) {
+  u.val = (uv8i64)(*(reinterpret_cast<uv8i64*>(&(_assign.u.val)))); 
+}
+void ulong8::operator=(int16 _assign) {
+  u.val = (uv8i64)(*(reinterpret_cast<uv8i64*>(&(_assign.u.val)))); 
+}
+void ulong8::operator=(uint16 _assign) {
+  u.val = (uv8i64)(*(reinterpret_cast<uv8i64*>(&(_assign.u.val)))); 
+}
+void ulong8::operator=(long8 _assign) {
+  u.val = (uv8i64)(*(reinterpret_cast<uv8i64*>(&(_assign.u.val)))); 
+}
+void ulong8::operator=(double8 _assign) {
+  u.val = (uv8i64)(*(reinterpret_cast<uv8i64*>(&(_assign.u.val)))); 
+}
+
+void long8::operator=(float16 _assign) {
+  u.val = (v8i64)(*(reinterpret_cast<v8i64*>(&(_assign.u.val)))); 
+}
+void long8::operator=(int16 _assign) {
+  u.val = (v8i64)(*(reinterpret_cast<v8i64*>(&(_assign.u.val)))); 
+}
+void long8::operator=(uint16 _assign) {
+  u.val = (v8i64)(*(reinterpret_cast<v8i64*>(&(_assign.u.val)))); 
+}
+void long8::operator=(ulong8 _assign) {
+  u.val = (v8i64)(*(reinterpret_cast<v8i64*>(&(_assign.u.val)))); 
+}
+void long8::operator=(double8 _assign) {
+  u.val = (v8i64)(*(reinterpret_cast<v8i64*>(&(_assign.u.val)))); 
+}
+
+void int16::operator=(float16 _assign) {
+  u.val = (v16i32)(*(reinterpret_cast<v16i32*>(&(_assign.u.val)))); 
+}
+void int16::operator=(ulong8 _assign) {
+  u.val = (v16i32)(*(reinterpret_cast<v16i32*>(&(_assign.u.val)))); 
+}
+void int16::operator=(uint16 _assign) {
+  u.val = (v16i32)(*(reinterpret_cast<v16i32*>(&(_assign.u.val)))); 
+}
+void int16::operator=(long8 _assign) {
+  u.val = (v16i32)(*(reinterpret_cast<v16i32*>(&(_assign.u.val)))); 
+}
+void int16::operator=(double8 _assign) {
+  u.val = (v16i32)(*(reinterpret_cast<v16i32*>(&(_assign.u.val)))); 
+}
+
+void uint16::operator=(float16 _assign) {
+  u.val = (uv16i32)(*(reinterpret_cast<uv16i32*>(&(_assign.u.val)))); 
+}
+void uint16::operator=(ulong8 _assign) {
+  u.val = (uv16i32)(*(reinterpret_cast<uv16i32*>(&(_assign.u.val)))); 
+}
+void uint16::operator=(int16 _assign) {
+  u.val = (uv16i32)(*(reinterpret_cast<uv16i32*>(&(_assign.u.val)))); 
+}
+void uint16::operator=(long8 _assign) {
+  u.val = (uv16i32)(*(reinterpret_cast<uv16i32*>(&(_assign.u.val)))); 
+}
+void uint16::operator=(double8 _assign) {
+  u.val = (uv16i32)(*(reinterpret_cast<uv16i32*>(&(_assign.u.val)))); 
+}
+
+void uZMM::operator=(float16 _assign) {
+  f = _assign; 
+}
+void uZMM::operator=(ulong8 _assign) {
+  ul = _assign;
+}
+void uZMM::operator=(int16 _assign) {
+  i = _assign;
+}
+void uZMM::operator=(uint16 _assign) {
+  ui = _assign;
+}
+void uZMM::operator=(long8 _assign) {
+  ul = _assign;
+}
+void uZMM::operator=(double8 _assign) {
+  d = _assign;
+}
+
+#endif
