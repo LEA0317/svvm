@@ -1,4 +1,4 @@
-# svvm ver0.1
+# svvm ver0.2
 SIMD class wrapper for clang
 
 You can write the code to generate SIMD as follows.
