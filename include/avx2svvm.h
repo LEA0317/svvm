@@ -33,6 +33,10 @@ struct int8
   } u;
 
   // set
+  __inline void set(int pos, int set)
+  {
+    u.elem[pos] = set;
+  }
   __inline static void set(int8 dst, int pos, int set)
   {
     dst.u.elem[pos] = set;
@@ -43,6 +47,10 @@ struct int8
   }
   
   // get
+  __inline int get(int pos)
+  {
+    return u.elem[pos];
+  }
   __inline static int get(int8 src, int pos)
   {
     return src.u.elem[pos];
@@ -189,6 +197,10 @@ struct uint8
   } u;
 
   // set
+  __inline void set(int pos, unsigned int set)
+  {
+    u.elem[pos] = set;
+  }
   __inline static void set(uint8 dst, int pos, unsigned int set)
   {
     dst.u.elem[pos] = set;
@@ -199,6 +211,10 @@ struct uint8
   }
   
   // get
+  __inline unsigned int get(int pos)
+  {
+    return u.elem[pos];
+  }
   __inline static unsigned int get(uint8 src, int pos)
   {
     return src.u.elem[pos];
@@ -345,6 +361,10 @@ struct long4
   } u;
 
   // set
+  __inline void set(int pos, long set)
+  {
+    u.elem[pos] = set;
+  }
   __inline static void set(long4 dst, int pos, long set)
   {
     dst.u.elem[pos] = set;
@@ -355,6 +375,10 @@ struct long4
   }
   
   // get
+  __inline long get(int pos)
+  {
+    return u.elem[pos];
+  }
   __inline static long get(long4 src, int pos)
   {
     return src.u.elem[pos];
@@ -501,6 +525,10 @@ struct ulong4
   } u;
 
   // set
+  __inline void set(int pos, unsigned long set)
+  {
+    u.elem[pos] = set;
+  }
   __inline static void set(ulong4 dst, int pos, unsigned long set)
   {
     dst.u.elem[pos] = set;
@@ -511,6 +539,10 @@ struct ulong4
   }
   
   // get
+  __inline unsigned long get(int pos)
+  {
+    return u.elem[pos];
+  }
   __inline static unsigned long get(ulong4 src, int pos)
   {
     return src.u.elem[pos];
@@ -657,6 +689,10 @@ struct float8
   } u;
 
   // set
+  __inline void set(int pos, float set)
+  {
+    u.elem[pos] = set;
+  }
   __inline static void set(float8 dst, int pos, float set)
   {
     dst.u.elem[pos] = set;
@@ -667,6 +703,10 @@ struct float8
   }
   
   // get
+  __inline float get(int pos)
+  {
+    return u.elem[pos];
+  }
   __inline static float get(float8 src, int pos)
   {
     return src.u.elem[pos];
@@ -793,6 +833,15 @@ struct float8
   __inline mask operator>=(float8 _ge);
   __inline mask operator==(float8 _eq);
   __inline mask operator!=(float8 _ne);
+
+  __inline float8 operator&(int8 _and)
+  {
+    return float8(reinterpret_cast<v8f32>((reinterpret_cast<v8i32>(u.val) & _and.u.val)));
+  }
+  __inline float8 operator|(float8 _or)
+  {
+    return float8(reinterpret_cast<v8f32>(reinterpret_cast<v8i32>(u.val) | reinterpret_cast<v8i32>(_or.u.val)));
+  }
 };
 
 struct double4
@@ -806,6 +855,10 @@ struct double4
   } u;
 
   // set
+  __inline void set(int pos, double set)
+  {
+    u.elem[pos] = set;
+  }
   __inline static void set(double4 dst, int pos, double set)
   {
     dst.u.elem[pos] = set;
@@ -816,6 +869,10 @@ struct double4
   }
   
   // get
+  __inline double get(int pos)
+  {
+    return u.elem[pos];
+  }
   __inline static double get(double4 src, int pos)
   {
     return src.u.elem[pos];
@@ -935,10 +992,26 @@ struct mask {
     maskf8 mf8; // mask v8f32    
   } mr;
 
-  __inline int8 _add(int8 _add1, int8 _add2)
+  // predicate patterns
+  __inline float8 _add(float8 _add1, float8 _add2)
   {
-    // TODO: implement predicate patterns
-    return _add1 + _add2; // temporal
+    float8 tmp = _add1 + _add2;
+    return (tmp & mr.mi8) | (_add1 & (~mr.mi8));
+  }
+  __inline float8 _mul(float8 _mul1, float8 _mul2)
+  {
+    float8 tmp = _mul1 * _mul2;
+    return (tmp & mr.mi8) | (_mul1 & (~mr.mi8));
+  }
+  __inline float8 _div(float8 _div1, float8 _div2)
+  {
+    float8 tmp = _div1 / _div2;
+    return (tmp & mr.mi8) | (_div1 & (~mr.mi8));
+  }
+  __inline float8 _sub(float8 _sub1, float8 _sub2)
+  {
+    float8 tmp = _sub1 - _sub2;
+    return (tmp & mr.mi8) | (_sub1 & (~mr.mi8));
   }
 };
 
@@ -1300,99 +1373,99 @@ double4& double4::operator/(uYMM _div) {
 //// assignment operations ////
 ///////////////////////////////
 void float8::operator=(double4 _assign) {
-  u.val = (v8f32)(*(reinterpret_cast<v8f32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8f32>(_assign.u.val); 
 }
 void float8::operator=(int8 _assign) {
-  u.val = (v8f32)(*(reinterpret_cast<v8f32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8f32>(_assign.u.val); 
 }
 void float8::operator=(uint8 _assign) {
-  u.val = (v8f32)(*(reinterpret_cast<v8f32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8f32>(_assign.u.val); 
 }
 void float8::operator=(long4 _assign) {
-  u.val = (v8f32)(*(reinterpret_cast<v8f32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8f32>(_assign.u.val); 
 }
 void float8::operator=(ulong4 _assign) {
-  u.val = (v8f32)(*(reinterpret_cast<v8f32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8f32>(_assign.u.val); 
 }
 
 void double4::operator=(float8 _assign) {
-  u.val = (v4f64)(*(reinterpret_cast<v4f64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4f64>(_assign.u.val); 
 }
 void double4::operator=(int8 _assign) {
-  u.val = (v4f64)(*(reinterpret_cast<v4f64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4f64>(_assign.u.val); 
 }
 void double4::operator=(uint8 _assign) {
-  u.val = (v4f64)(*(reinterpret_cast<v4f64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4f64>(_assign.u.val); 
 }
 void double4::operator=(long4 _assign) {
-  u.val = (v4f64)(*(reinterpret_cast<v4f64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4f64>(_assign.u.val); 
 }
 void double4::operator=(ulong4 _assign) {
-  u.val = (v4f64)(*(reinterpret_cast<v4f64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4f64>(_assign.u.val); 
 }
 
 void ulong4::operator=(float8 _assign) {
-  u.val = (uv4i64)(*(reinterpret_cast<uv4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv4i64>(_assign.u.val); 
 }
 void ulong4::operator=(int8 _assign) {
-  u.val = (uv4i64)(*(reinterpret_cast<uv4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv4i64>(_assign.u.val); 
 }
 void ulong4::operator=(uint8 _assign) {
-  u.val = (uv4i64)(*(reinterpret_cast<uv4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv4i64>(_assign.u.val);
 }
 void ulong4::operator=(long4 _assign) {
-  u.val = (uv4i64)(*(reinterpret_cast<uv4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv4i64>(_assign.u.val); 
 }
 void ulong4::operator=(double4 _assign) {
-  u.val = (uv4i64)(*(reinterpret_cast<uv4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv4i64>(_assign.u.val); 
 }
 
 void long4::operator=(float8 _assign) {
-  u.val = (v4i64)(*(reinterpret_cast<v4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4i64>(_assign.u.val); 
 }
 void long4::operator=(int8 _assign) {
-  u.val = (v4i64)(*(reinterpret_cast<v4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4i64>(_assign.u.val); 
 }
 void long4::operator=(uint8 _assign) {
-  u.val = (v4i64)(*(reinterpret_cast<v4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4i64>(_assign.u.val); 
 }
 void long4::operator=(ulong4 _assign) {
-  u.val = (v4i64)(*(reinterpret_cast<v4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4i64>(_assign.u.val); 
 }
 void long4::operator=(double4 _assign) {
-  u.val = (v4i64)(*(reinterpret_cast<v4i64*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v4i64>(_assign.u.val); 
 }
 
 void int8::operator=(float8 _assign) {
-  u.val = (v8i32)(*(reinterpret_cast<v8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8i32>(_assign.u.val); 
 }
 void int8::operator=(ulong4 _assign) {
-  u.val = (v8i32)(*(reinterpret_cast<v8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8i32>(_assign.u.val); 
 }
 void int8::operator=(uint8 _assign) {
-  u.val = (v8i32)(*(reinterpret_cast<v8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8i32>(_assign.u.val); 
 }
 void int8::operator=(long4 _assign) {
-  u.val = (v8i32)(*(reinterpret_cast<v8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8i32>(_assign.u.val); 
 }
 void int8::operator=(double4 _assign) {
-  u.val = (v8i32)(*(reinterpret_cast<v8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<v8i32>(_assign.u.val);
 }
 
 void uint8::operator=(float8 _assign) {
-  u.val = (uv8i32)(*(reinterpret_cast<uv8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv8i32>(_assign.u.val); 
 }
 void uint8::operator=(ulong4 _assign) {
-  u.val = (uv8i32)(*(reinterpret_cast<uv8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv8i32>(_assign.u.val); 
 }
 void uint8::operator=(int8 _assign) {
-  u.val = (uv8i32)(*(reinterpret_cast<uv8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv8i32>(_assign.u.val); 
 }
 void uint8::operator=(long4 _assign) {
-  u.val = (uv8i32)(*(reinterpret_cast<uv8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv8i32>(_assign.u.val); 
 }
 void uint8::operator=(double4 _assign) {
-  u.val = (uv8i32)(*(reinterpret_cast<uv8i32*>(&(_assign.u.val)))); 
+  u.val = reinterpret_cast<uv8i32>(_assign.u.val); 
 }
 
 void uYMM::operator=(float8 _assign) {
