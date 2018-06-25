@@ -1,5 +1,6 @@
 #include "avxsvvm.h"
 
 void test(xmm *x, xmm *y, xmm *z) {
-  *z = (*x).f * *y;
+  mask m = (*x).f > (*y).f;
+  *z = m._div((*x).f , (*y).f);
 }
