@@ -14,13 +14,13 @@ Compile as follows.
 
 ```
 with avxsvvm.h
-$ clang++ -O3 -mavx     test.cpp -std=c++11
+$ clang++ -Ofast -mavx     test.cpp -std=c++11
 
 with avx2svvm.h
-$ clang++ -O3 -mavx2    test.cpp -std=c++11
+$ clang++ -Ofast -mavx2    test.cpp -std=c++11
 
 with avx512svvm.h
-$ clang++ -O3 -mavx512f test.cpp -std=c++11
+$ clang++ -Ofast -mavx512f test.cpp -std=c++11
 ```
 
 I will update this wrapper (predicate instructions etc.).
