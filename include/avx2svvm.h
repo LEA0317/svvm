@@ -1013,6 +1013,68 @@ struct mask {
     float8 tmp = _sub1 - _sub2;
     return (tmp & mr.mi8) | (_sub1 & (~mr.mi8));
   }
+
+  __inline int8 _add(int8 _add1, int8 _add2)
+  {
+    int8 tmp = _add1 + _add2;
+    return (tmp & mr.mi8) | (_add1 & (~mr.mi8));
+  }
+  __inline int8 _mul(int8 _mul1, int8 _mul2)
+  {
+    int8 tmp = _mul1 * _mul2;
+    return (tmp & mr.mi8) | (_mul1 & (~mr.mi8));
+  }
+  __inline int8 _div(int8 _div1, int8 _div2)
+  {
+    int8 tmp = _div1 / _div2;
+    return (tmp & mr.mi8) | (_div1 & (~mr.mi8));
+  }
+  __inline int8 _sub(int8 _sub1, int8 _sub2)
+  {
+    int8 tmp = _sub1 - _sub2;
+    return (tmp & mr.mi8) | (_sub1 & (~mr.mi8));
+  }
+  __inline int8 _sll(int8 _sll1, int8 _sll2)
+  {
+    int8 tmp = _sll1 << _sll2;
+    return (tmp & mr.mi8) | (_sll1 & (~mr.mi8));
+  }
+  __inline int8 _sra(int8 _sra1, int8 _sra2)
+  {
+    int8 tmp = _sra1 << _sra2;
+    return (tmp & mr.mi8) | (_sra1 & (~mr.mi8));
+  }
+
+  __inline long4 _add(long4 _add1, long4 _add2)
+  {
+    long4 tmp = _add1 + _add2;
+    return (tmp & mr.ml4) | (_add1 & (~mr.ml4));
+  }
+  __inline long4 _mul(long4 _mul1, long4 _mul2)
+  {
+    long4 tmp = _mul1 * _mul2;
+    return (tmp & mr.ml4) | (_mul1 & (~mr.ml4));
+  }
+  __inline long4 _div(long4 _div1, long4 _div2)
+  {
+    long4 tmp = _div1 / _div2;
+    return (tmp & mr.ml4) | (_div1 & (~mr.ml4));
+  }
+  __inline long4 _sub(long4 _sub1, long4 _sub2)
+  {
+    long4 tmp = _sub1 - _sub2;
+    return (tmp & mr.ml4) | (_sub1 & (~mr.ml4));
+  }
+  __inline long4 _sll(long4 _sll1, long4 _sll2)
+  {
+    long4 tmp = _sll1 << _sll2;
+    return (tmp & mr.ml4) | (_sll1 & (~mr.ml4));
+  }
+  __inline long4 _sra(long4 _sra1, long4 _sra2)
+  {
+    long4 tmp = _sra1 << _sra2;
+    return (tmp & mr.ml4) | (_sra1 & (~mr.ml4));
+  }
 };
 
 // int8

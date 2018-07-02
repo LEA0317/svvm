@@ -977,6 +977,15 @@ struct double2
   __inline mask operator>=(double2 _ge);
   __inline mask operator==(double2 _eq);
   __inline mask operator!=(double2 _ne);
+
+  __inline double2 operator&(long2 _and)
+  {
+    return double2(reinterpret_cast<v2f64>((reinterpret_cast<v2i64>(u.val) & _and.u.val)));
+  }
+  __inline double2 operator|(double2 _or)
+  {
+    return double2(reinterpret_cast<v2f64>(reinterpret_cast<v2i64>(u.val) | reinterpret_cast<v2i64>(_or.u.val)));
+  }
 };
 
 struct mask {
@@ -1012,6 +1021,89 @@ struct mask {
   {
     float4 tmp = _sub1 - _sub2;
     return (tmp & mr.mi4) | (_sub1 & (~mr.mi4));
+  }
+
+  __inline double2 _add(double2 _add1, double2 _add2)
+  {
+    double2 tmp = _add1 + _add2;
+    return (tmp & mr.ml2) | (_add1 & (~mr.ml2));
+  }
+  __inline double2 _mul(double2 _mul1, double2 _mul2)
+  {
+    double2 tmp = _mul1 * _mul2;
+    return (tmp & mr.ml2) | (_mul1 & (~mr.ml2));
+  }
+  __inline double2 _div(double2 _div1, double2 _div2)
+  {
+    double2 tmp = _div1 / _div2;
+    return (tmp & mr.ml2) | (_div1 & (~mr.ml2));
+  }
+  __inline double2 _sub(double2 _sub1, double2 _sub2)
+  {
+    double2 tmp = _sub1 - _sub2;
+    return (tmp & mr.ml2) | (_sub1 & (~mr.ml2));
+  }
+
+  __inline int4 _add(int4 _add1, int4 _add2)
+  {
+    int4 tmp = _add1 + _add2;
+    return (tmp & mr.mi4) | (_add1 & (~mr.mi4));
+  }
+  __inline int4 _mul(int4 _mul1, int4 _mul2)
+  {
+    int4 tmp = _mul1 * _mul2;
+    return (tmp & mr.mi4) | (_mul1 & (~mr.mi4));
+  }
+  __inline int4 _div(int4 _div1, int4 _div2)
+  {
+    int4 tmp = _div1 / _div2;
+    return (tmp & mr.mi4) | (_div1 & (~mr.mi4));
+  }
+  __inline int4 _sub(int4 _sub1, int4 _sub2)
+  {
+    int4 tmp = _sub1 - _sub2;
+    return (tmp & mr.mi4) | (_sub1 & (~mr.mi4));
+  }
+  __inline int4 _sll(int4 _sll1, int4 _sll2)
+  {
+    int4 tmp = _sll1 << _sll2;
+    return (tmp & mr.mi4) | (_sll1 & (~mr.mi4));
+  }
+  __inline int4 _sra(int4 _sra1, int4 _sra2)
+  {
+    int4 tmp = _sra1 << _sra2;
+    return (tmp & mr.mi4) | (_sra1 & (~mr.mi4));
+  }
+
+  __inline long2 _add(long2 _add1, long2 _add2)
+  {
+    long2 tmp = _add1 + _add2;
+    return (tmp & mr.ml2) | (_add1 & (~mr.ml2));
+  }
+  __inline long2 _mul(long2 _mul1, long2 _mul2)
+  {
+    long2 tmp = _mul1 * _mul2;
+    return (tmp & mr.ml2) | (_mul1 & (~mr.ml2));
+  }
+  __inline long2 _div(long2 _div1, long2 _div2)
+  {
+    long2 tmp = _div1 / _div2;
+    return (tmp & mr.ml2) | (_div1 & (~mr.ml2));
+  }
+  __inline long2 _sub(long2 _sub1, long2 _sub2)
+  {
+    long2 tmp = _sub1 - _sub2;
+    return (tmp & mr.ml2) | (_sub1 & (~mr.ml2));
+  }
+  __inline long2 _sll(long2 _sll1, long2 _sll2)
+  {
+    long2 tmp = _sll1 << _sll2;
+    return (tmp & mr.ml2) | (_sll1 & (~mr.ml2));
+  }
+  __inline long2 _sra(long2 _sra1, long2 _sra2)
+  {
+    long2 tmp = _sra1 << _sra2;
+    return (tmp & mr.ml2) | (_sra1 & (~mr.ml2));
   }
 };
 
