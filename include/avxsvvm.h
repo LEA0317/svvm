@@ -184,6 +184,12 @@ struct int4
   __inline mask operator>=(int4 _ge);
   __inline mask operator==(int4 _eq);
   __inline mask operator!=(int4 _ne);
+  __inline mask operator<(uXMM  _lt);
+  __inline mask operator<=(uXMM _le);
+  __inline mask operator>(uXMM  _gt);
+  __inline mask operator>=(uXMM _ge);
+  __inline mask operator==(uXMM _eq);
+  __inline mask operator!=(uXMM _ne);
 };
 
 struct uint4
@@ -1577,6 +1583,28 @@ void uXMM::operator=(long2 _assign) {
 }
 void uXMM::operator=(double2 _assign) {
   d = _assign;
+}
+
+////////////////////////////
+//// compare operations ////
+////////////////////////////
+mask int4::operator<(uXMM _lt) {
+  return mask((maski4)(u.val < _lt.i.u.val));
+}
+mask int4::operator<=(uXMM _le) {
+  return mask((maski4)(u.val <= _le.i.u.val));
+}
+mask int4::operator>(uXMM _gt) {
+  return mask((maski4)(u.val > _gt.i.u.val));
+}
+mask int4::operator>=(uXMM _ge) {
+  return mask((maski4)(u.val >= _ge.i.u.val));
+}
+mask int4::operator==(uXMM _eq) {
+  return mask((maski4)(u.val == _eq.i.u.val));
+}
+mask int4::operator!=(uXMM _ne) {
+  return mask((maski4)(u.val != _ne.i.u.val));
 }
 
 #endif
