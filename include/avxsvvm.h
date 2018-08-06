@@ -354,6 +354,12 @@ struct uint4
   __inline mask operator>=(uint4 _ge);
   __inline mask operator==(uint4 _eq);
   __inline mask operator!=(uint4 _ne);
+  __inline mask operator<(uXMM  _lt);
+  __inline mask operator<=(uXMM _le);
+  __inline mask operator>(uXMM  _gt);
+  __inline mask operator>=(uXMM _ge);
+  __inline mask operator==(uXMM _eq);
+  __inline mask operator!=(uXMM _ne);
 };
 
 struct long2
@@ -518,6 +524,12 @@ struct long2
   __inline mask operator>=(long2 _ge);
   __inline mask operator==(long2 _eq);
   __inline mask operator!=(long2 _ne);
+  __inline mask operator<(uXMM  _lt);
+  __inline mask operator<=(uXMM _le);
+  __inline mask operator>(uXMM  _gt);
+  __inline mask operator>=(uXMM _ge);
+  __inline mask operator==(uXMM _eq);
+  __inline mask operator!=(uXMM _ne);
 };
 
 struct ulong2
@@ -682,6 +694,12 @@ struct ulong2
   __inline mask operator>=(ulong2 _ge);
   __inline mask operator==(ulong2 _eq);
   __inline mask operator!=(ulong2 _ne);
+  __inline mask operator<(uXMM  _lt);
+  __inline mask operator<=(uXMM _le);
+  __inline mask operator>(uXMM  _gt);
+  __inline mask operator>=(uXMM _ge);
+  __inline mask operator==(uXMM _eq);
+  __inline mask operator!=(uXMM _ne);
 };
 
 struct float4
@@ -839,7 +857,13 @@ struct float4
   __inline mask operator>=(float4 _ge);
   __inline mask operator==(float4 _eq);
   __inline mask operator!=(float4 _ne);
-
+  __inline mask operator<(uXMM  _lt);
+  __inline mask operator<=(uXMM _le);
+  __inline mask operator>(uXMM  _gt);
+  __inline mask operator>=(uXMM _ge);
+  __inline mask operator==(uXMM _eq);
+  __inline mask operator!=(uXMM _ne);
+  
   __inline float4 operator&(int4 _and)
   {
     return float4(reinterpret_cast<v4f32>((reinterpret_cast<v4i32>(u.val) & _and.u.val)));
@@ -983,7 +1007,13 @@ struct double2
   __inline mask operator>=(double2 _ge);
   __inline mask operator==(double2 _eq);
   __inline mask operator!=(double2 _ne);
-
+  __inline mask operator<(uXMM  _lt);
+  __inline mask operator<=(uXMM _le);
+  __inline mask operator>(uXMM  _gt);
+  __inline mask operator>=(uXMM _ge);
+  __inline mask operator==(uXMM _eq);
+  __inline mask operator!=(uXMM _ne);
+  
   __inline double2 operator&(long2 _and)
   {
     return double2(reinterpret_cast<v2f64>((reinterpret_cast<v2i64>(u.val) & _and.u.val)));
@@ -1605,6 +1635,96 @@ mask int4::operator==(uXMM _eq) {
 }
 mask int4::operator!=(uXMM _ne) {
   return mask((maski4)(u.val != _ne.i.u.val));
+}
+mask uint4::operator<(uXMM _lt) {
+  return mask((maski4)(u.val < _lt.ui.u.val));
+}
+mask uint4::operator<=(uXMM _le) {
+  return mask((maski4)(u.val <= _le.ui.u.val));
+}
+mask uint4::operator>(uXMM _gt) {
+  return mask((maski4)(u.val > _gt.ui.u.val));
+}
+mask uint4::operator>=(uXMM _ge) {
+  return mask((maski4)(u.val >= _ge.ui.u.val));
+}
+mask uint4::operator==(uXMM _eq) {
+  return mask((maski4)(u.val == _eq.ui.u.val));
+}
+mask uint4::operator!=(uXMM _ne) {
+  return mask((maski4)(u.val != _ne.ui.u.val));
+}
+mask long2::operator<(uXMM _lt) {
+  return mask((maskl2)(u.val < _lt.l.u.val));
+}
+mask long2::operator<=(uXMM _le) {
+  return mask((maskl2)(u.val <= _le.l.u.val));
+}
+mask long2::operator>(uXMM _gt) {
+  return mask((maskl2)(u.val > _gt.l.u.val));
+}
+mask long2::operator>=(uXMM _ge) {
+  return mask((maskl2)(u.val >= _ge.l.u.val));
+}
+mask long2::operator==(uXMM _eq) {
+  return mask((maskl2)(u.val == _eq.l.u.val));
+}
+mask long2::operator!=(uXMM _ne) {
+  return mask((maskl2)(u.val != _ne.l.u.val));
+}
+mask ulong2::operator<(uXMM _lt) {
+  return mask((maskl2)(u.val < _lt.ul.u.val));
+}
+mask ulong2::operator<=(uXMM _le) {
+  return mask((maskl2)(u.val <= _le.ul.u.val));
+}
+mask ulong2::operator>(uXMM _gt) {
+  return mask((maskl2)(u.val > _gt.ul.u.val));
+}
+mask ulong2::operator>=(uXMM _ge) {
+  return mask((maskl2)(u.val >= _ge.ul.u.val));
+}
+mask ulong2::operator==(uXMM _eq) {
+  return mask((maskl2)(u.val == _eq.ul.u.val));
+}
+mask ulong2::operator!=(uXMM _ne) {
+  return mask((maskl2)(u.val != _ne.ul.u.val));
+}
+mask float4::operator<(uXMM _lt) {
+  return mask((maskf4)(u.val < _lt.f.u.val));
+}
+mask float4::operator<=(uXMM _le) {
+  return mask((maskf4)(u.val <= _le.f.u.val));
+}
+mask float4::operator>(uXMM _gt) {
+  return mask((maskf4)(u.val > _gt.f.u.val));
+}
+mask float4::operator>=(uXMM _ge) {
+  return mask((maskf4)(u.val >= _ge.f.u.val));
+}
+mask float4::operator==(uXMM _eq) {
+  return mask((maskf4)(u.val == _eq.f.u.val));
+}
+mask float4::operator!=(uXMM _ne) {
+  return mask((maskf4)(u.val != _ne.f.u.val));
+}
+mask double2::operator<(uXMM _lt) {
+  return mask((maskd2)(u.val < _lt.d.u.val));
+}
+mask double2::operator<=(uXMM _le) {
+  return mask((maskd2)(u.val <= _le.d.u.val));
+}
+mask double2::operator>(uXMM _gt) {
+  return mask((maskd2)(u.val > _gt.d.u.val));
+}
+mask double2::operator>=(uXMM _ge) {
+  return mask((maskd2)(u.val >= _ge.d.u.val));
+}
+mask double2::operator==(uXMM _eq) {
+  return mask((maskd2)(u.val == _eq.d.u.val));
+}
+mask double2::operator!=(uXMM _ne) {
+  return mask((maskd2)(u.val != _ne.d.u.val));
 }
 
 #endif
