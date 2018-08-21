@@ -184,6 +184,12 @@ struct int8
   __inline mask operator>=(int8 _ge);
   __inline mask operator==(int8 _eq);
   __inline mask operator!=(int8 _ne);
+  __inline mask operator<(uYMM  _lt);
+  __inline mask operator<=(uYMM _le);
+  __inline mask operator>(uYMM  _gt);
+  __inline mask operator>=(uYMM _ge);
+  __inline mask operator==(uYMM _eq);
+  __inline mask operator!=(uYMM _ne);
 };
 
 struct uint8
@@ -348,6 +354,12 @@ struct uint8
   __inline mask operator>=(uint8 _ge);
   __inline mask operator==(uint8 _eq);
   __inline mask operator!=(uint8 _ne);
+  __inline mask operator<(uYMM  _lt);
+  __inline mask operator<=(uYMM _le);
+  __inline mask operator>(uYMM  _gt);
+  __inline mask operator>=(uYMM _ge);
+  __inline mask operator==(uYMM _eq);
+  __inline mask operator!=(uYMM _ne);  
 };
 
 struct long4
@@ -512,6 +524,12 @@ struct long4
   __inline mask operator>=(long4 _ge);
   __inline mask operator==(long4 _eq);
   __inline mask operator!=(long4 _ne);
+  __inline mask operator<(uYMM  _lt);
+  __inline mask operator<=(uYMM _le);
+  __inline mask operator>(uYMM  _gt);
+  __inline mask operator>=(uYMM _ge);
+  __inline mask operator==(uYMM _eq);
+  __inline mask operator!=(uYMM _ne);  
 };
 
 struct ulong4
@@ -676,6 +694,12 @@ struct ulong4
   __inline mask operator>=(ulong4 _ge);
   __inline mask operator==(ulong4 _eq);
   __inline mask operator!=(ulong4 _ne);
+  __inline mask operator<(uYMM  _lt);
+  __inline mask operator<=(uYMM _le);
+  __inline mask operator>(uYMM  _gt);
+  __inline mask operator>=(uYMM _ge);
+  __inline mask operator==(uYMM _eq);
+  __inline mask operator!=(uYMM _ne);  
 };
 
 struct float8
@@ -833,6 +857,12 @@ struct float8
   __inline mask operator>=(float8 _ge);
   __inline mask operator==(float8 _eq);
   __inline mask operator!=(float8 _ne);
+  __inline mask operator<(uYMM  _lt);
+  __inline mask operator<=(uYMM _le);
+  __inline mask operator>(uYMM  _gt);
+  __inline mask operator>=(uYMM _ge);
+  __inline mask operator==(uYMM _eq);
+  __inline mask operator!=(uYMM _ne);  
 
   __inline float8 operator&(int8 _and)
   {
@@ -977,6 +1007,12 @@ struct double4
   __inline mask operator>=(double4 _ge);
   __inline mask operator==(double4 _eq);
   __inline mask operator!=(double4 _ne);
+  __inline mask operator<(uYMM  _lt);
+  __inline mask operator<=(uYMM _le);
+  __inline mask operator>(uYMM  _gt);
+  __inline mask operator>=(uYMM _ge);
+  __inline mask operator==(uYMM _eq);
+  __inline mask operator!=(uYMM _ne);  
 };
 
 struct mask {
@@ -1547,6 +1583,118 @@ void uYMM::operator=(long4 _assign) {
 }
 void uYMM::operator=(double4 _assign) {
   d = _assign;
+}
+
+////////////////////////////
+//// compare operations ////
+////////////////////////////
+mask int8::operator<(uYMM _lt) {
+  return mask((maski8)(u.val < _lt.i.u.val));
+}
+mask int8::operator<=(uYMM _le) {
+  return mask((maski8)(u.val <= _le.i.u.val));
+}
+mask int8::operator>(uYMM _gt) {
+  return mask((maski8)(u.val > _gt.i.u.val));
+}
+mask int8::operator>=(uYMM _ge) {
+  return mask((maski8)(u.val >= _ge.i.u.val));
+}
+mask int8::operator==(uYMM _eq) {
+  return mask((maski8)(u.val == _eq.i.u.val));
+}
+mask int8::operator!=(uYMM _ne) {
+  return mask((maski8)(u.val != _ne.i.u.val));
+}
+mask uint8::operator<(uYMM _lt) {
+  return mask((maski8)(u.val < _lt.i.u.val));
+}
+mask uint8::operator<=(uYMM _le) {
+  return mask((maski8)(u.val <= _le.i.u.val));
+}
+mask uint8::operator>(uYMM _gt) {
+  return mask((maski8)(u.val > _gt.i.u.val));
+}
+mask uint8::operator>=(uYMM _ge) {
+  return mask((maski8)(u.val >= _ge.i.u.val));
+}
+mask uint8::operator==(uYMM _eq) {
+  return mask((maski8)(u.val == _eq.i.u.val));
+}
+mask uint8::operator!=(uYMM _ne) {
+  return mask((maski8)(u.val != _ne.i.u.val));
+}
+mask long4::operator<(uYMM _lt) {
+  return mask((maskl4)(u.val < _lt.l.u.val));
+}
+mask long4::operator<=(uYMM _le) {
+  return mask((maskl4)(u.val <= _le.l.u.val));
+}
+mask long4::operator>(uYMM _gt) {
+  return mask((maskl4)(u.val > _gt.l.u.val));
+}
+mask long4::operator>=(uYMM _ge) {
+  return mask((maskl4)(u.val >= _ge.l.u.val));
+}
+mask long4::operator==(uYMM _eq) {
+  return mask((maskl4)(u.val == _eq.l.u.val));
+}
+mask long4::operator!=(uYMM _ne) {
+  return mask((maskl4)(u.val != _ne.l.u.val));
+}
+mask ulong4::operator<(uYMM _lt) {
+  return mask((maskl4)(u.val < _lt.ul.u.val));
+}
+mask ulong4::operator<=(uYMM _le) {
+  return mask((maskl4)(u.val <= _le.ul.u.val));
+}
+mask ulong4::operator>(uYMM _gt) {
+  return mask((maskl4)(u.val > _gt.ul.u.val));
+}
+mask ulong4::operator>=(uYMM _ge) {
+  return mask((maskl4)(u.val >= _ge.ul.u.val));
+}
+mask ulong4::operator==(uYMM _eq) {
+  return mask((maskl4)(u.val == _eq.ul.u.val));
+}
+mask ulong4::operator!=(uYMM _ne) {
+  return mask((maskl4)(u.val != _ne.ul.u.val));
+}
+mask float8::operator<(uYMM _lt) {
+  return mask((maskf8)(u.val < _lt.f.u.val));
+}
+mask float8::operator<=(uYMM _le) {
+  return mask((maskf8)(u.val <= _le.f.u.val));
+}
+mask float8::operator>(uYMM _gt) {
+  return mask((maskf8)(u.val > _gt.f.u.val));
+}
+mask float8::operator>=(uYMM _ge) {
+  return mask((maskf8)(u.val >= _ge.f.u.val));
+}
+mask float8::operator==(uYMM _eq) {
+  return mask((maskf8)(u.val == _eq.f.u.val));
+}
+mask float8::operator!=(uYMM _ne) {
+  return mask((maskf8)(u.val != _ne.f.u.val));
+}
+mask double4::operator<(uYMM _lt) {
+  return mask((maskd4)(u.val < _lt.d.u.val));
+}
+mask double4::operator<=(uYMM _le) {
+  return mask((maskd4)(u.val <= _le.d.u.val));
+}
+mask double4::operator>(uYMM _gt) {
+  return mask((maskd4)(u.val > _gt.d.u.val));
+}
+mask double4::operator>=(uYMM _ge) {
+  return mask((maskd4)(u.val >= _ge.d.u.val));
+}
+mask double4::operator==(uYMM _eq) {
+  return mask((maskd4)(u.val == _eq.d.u.val));
+}
+mask double4::operator!=(uYMM _ne) {
+  return mask((maskd4)(u.val != _ne.d.u.val));
 }
 
 #endif
