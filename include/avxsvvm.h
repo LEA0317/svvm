@@ -1058,6 +1058,14 @@ struct mask {
     float4 tmp = _sub1 - _sub2;
     return (tmp & mr.mi4) | (_sub1 & (~mr.mi4));
   }
+  __inline float4 _max(float4 _max1, float4 _max2)
+  {
+    return (_max1 & mr.mi4) | (_max2 & (~mr.mi4));
+  }
+  __inline float4 _min(float4 _min1, float4 _min2)
+  {
+    return (_min2 & mr.mi4) | (_min1 & (~mr.mi4));
+  }
 
   __inline double2 _add(double2 _add1, double2 _add2)
   {
@@ -1079,6 +1087,14 @@ struct mask {
     double2 tmp = _sub1 - _sub2;
     return (tmp & mr.ml2) | (_sub1 & (~mr.ml2));
   }
+  __inline double2 _max(double2 _max1, double2 _max2)
+  {
+    return (_max1 & mr.ml2) | (_max2 & (~mr.ml2));
+  }
+  __inline double2 _min(double2 _min1, double2 _min2)
+  {
+    return (_min2 & mr.ml2) | (_min1 & (~mr.ml2));
+  }  
 
   __inline int4 _add(int4 _add1, int4 _add2)
   {
@@ -1100,6 +1116,14 @@ struct mask {
     int4 tmp = _sub1 - _sub2;
     return (tmp & mr.mi4) | (_sub1 & (~mr.mi4));
   }
+  __inline int4 _max(int4 _max1, int4 _max2)
+  {
+    return (_max1 & mr.mi4) | (_max2 & (~mr.mi4));
+  }
+  __inline int4 _min(int4 _min1, int4 _min2)
+  {
+    return (_min2 & mr.mi4) | (_min1 & (~mr.mi4));
+  }  
   __inline int4 _sll(int4 _sll1, int4 _sll2)
   {
     int4 tmp = _sll1 << _sll2;
@@ -1130,6 +1154,14 @@ struct mask {
   {
     long2 tmp = _sub1 - _sub2;
     return (tmp & mr.ml2) | (_sub1 & (~mr.ml2));
+  }
+  __inline long2 _max(long2 _max1, long2 _max2)
+  {
+    return (_max1 & mr.ml2) | (_max2 & (~mr.ml2));
+  }
+  __inline long2 _min(long2 _min1, long2 _min2)
+  {
+    return (_min2 & mr.ml2) | (_min1 & (~mr.ml2));
   }
   __inline long2 _sll(long2 _sll1, long2 _sll2)
   {
