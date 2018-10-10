@@ -177,6 +177,9 @@ struct int4
     return int4(u.val >> (int4(_sra)).u.val);
   }  
 
+  // convert
+  __inline float4 tof(void);
+
   // compare
   __inline mask operator<(int4  _lt);
   __inline mask operator<=(int4 _le);
@@ -346,6 +349,9 @@ struct uint4
   {
     return uint4(u.val >> (uint4(_srl)).u.val);
   }  
+
+  // convert
+  __inline float4 tof(void);
 
   // compare
   __inline mask operator<(uint4  _lt);
@@ -517,6 +523,9 @@ struct long2
     return long2(u.val >> (long2(_sra)).u.val);
   }  
 
+  // convert
+  __inline double2 tod(void);
+
   // compare
   __inline mask operator<(long2  _lt);
   __inline mask operator<=(long2 _le);
@@ -687,6 +696,9 @@ struct ulong2
     return ulong2(u.val >> (ulong2(_srl)).u.val);
   }  
 
+  // convert
+  __inline double2 tod(void);
+
   // compare
   __inline mask operator<(ulong2  _lt);
   __inline mask operator<=(ulong2 _le);
@@ -849,7 +861,10 @@ struct float4
   {
     return float4(__builtin_ia32_minps(_min1.u.val, _min2.u.val));
   }
-  
+
+  // convert 
+  __inline int4 toi(void);
+
   // compare
   __inline mask operator<(float4  _lt);
   __inline mask operator<=(float4 _le);
@@ -999,7 +1014,10 @@ struct double2
   {
     return double2(__builtin_ia32_minpd(_min1.u.val, _min2.u.val));
   }
-  
+
+  // convert  
+  __inline long2 tol(void);
+
   // compare
   __inline mask operator<(double2  _lt);
   __inline mask operator<=(double2 _le);
@@ -1757,6 +1775,25 @@ mask double2::operator==(uXMM _eq) {
 }
 mask double2::operator!=(uXMM _ne) {
   return mask((maskd2)(u.val != _ne.d.u.val));
+}
+
+float4 int4::tof(void) {
+  return (float4)(__builtin_ia32_cvtdq2ps(u.val));
+}
+float4 uint4::tof(void) {
+  return (float4)(__builtin_ia32_cvtdq2ps(u.val));
+}
+double2 long2::tod(void) {
+  return (double2)(reinterpret_cast<v2f64>(u.val));
+}
+double2 ulong2::tod(void) {
+  return (double2)(reinterpret_cast<v2f64>(u.val));
+}
+int4 float4::toi(void) {
+  return (int4)(__builtin_ia32_cvtps2dq(u.val));
+}
+long2 double2::tol(void) {
+  return (long2)(__builtin_ia32_cvtpd2dq(u.val));
 }
 
 #endif
