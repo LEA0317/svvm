@@ -1778,10 +1778,10 @@ mask double2::operator!=(uXMM _ne) {
 }
 
 float4 int4::tof(void) {
-  return (float4)(__builtin_ia32_cvtdq2ps(u.val));
+  return (float4)(reinterpret_cast<v4f32>(u.val));
 }
 float4 uint4::tof(void) {
-  return (float4)(__builtin_ia32_cvtdq2ps(u.val));
+  return (float4)(reinterpret_cast<v4f32>(u.val));
 }
 double2 long2::tod(void) {
   return (double2)(reinterpret_cast<v2f64>(u.val));
@@ -1790,10 +1790,10 @@ double2 ulong2::tod(void) {
   return (double2)(reinterpret_cast<v2f64>(u.val));
 }
 int4 float4::toi(void) {
-  return (int4)(__builtin_ia32_cvtps2dq(u.val));
+  return (int4)(reinterpret_cast<v4i32>(u.val));
 }
 long2 double2::tol(void) {
-  return (long2)(__builtin_ia32_cvtpd2dq(u.val));
+  return (long2)(reinterpret_cast<v2i64>(u.val));
 }
 
 #endif
